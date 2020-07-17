@@ -2,11 +2,11 @@ module.exports = {
     name:'willy',
     description: 'Willy facts',
     execute(message, args){
-        message.channel.send(getRandomQuote());
+        message.channel.send(getRandomWilly());
     }
 };
 
-getRandomQuote = () => {
+getRandomWilly = () => {
     const quotes = ['Leeeeeet me get a 3 pack new ports 100', 'Level 22 Skeleton', 
     'Pu. Pee you. Cu. Tee you. Ru. Are UUUUUU'];
 

@@ -2,11 +2,11 @@ module.exports = {
     name:'joel',
     description: 'Joel facts',
     execute(message, args){
-        message.channel.send(getRandomQuote());
+        message.channel.send(getRandomJoel());
     }
 };
 
-getRandomQuote = () => {
+getRandomJoel = () => {
     const quotes = ['Joel has been abducted by aliens :thinking:', 'Yes Brandon', 
     'Joel secretly has other friends in another discord :thinking:', 'Joel forgot about us :pensive:'];
 
