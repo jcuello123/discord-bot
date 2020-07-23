@@ -22,13 +22,16 @@ bot.on("message", (message) => {
   const command = args.shift().toLowerCase();
 
   if (
-    !bot.commands.has(command) &&
-    commmand != "leave" &&
-    commmand != "skip" &&
-    commmand != "play" &&
-    commmand != "fs" &&
-    commmand != "join"
-  )
+    command === "leave" ||
+    command === "skip" ||
+    command === "play" ||
+    command === "fs" ||
+    command === "join"
+  ) {
+    return;
+  }
+
+  if (!bot.commands.has(command))
     return message.reply("No such command, dingus.");
   else {
     try {
@@ -41,5 +44,22 @@ bot.on("message", (message) => {
     }
   }
 });
+
+//detect when someone joins/leaves a channel
+// bot.on("voiceStateUpdate", function (oldState, newState) {
+//   if (
+//     newState.channel !== null &&
+//     newState.member.displayName === "ysowasted" &&
+//     (newState.channel.name === "Los Frijoles" ||
+//       newState.channel.name === "Los Tontons")
+//   ) {
+//     console.log(`${newState.member.displayName} has joined`);
+//   } else if (
+//     newState.channel === null &&
+//     newState.member.displayName === "ysowasted"
+//   ) {
+//     console.log(`${newState.member.displayName} has left`);
+//   }
+// });
 
 bot.login(process.env.BOT_TOKEN);
