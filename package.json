@@ -15,6 +15,7 @@
     "discord.js-commando": "^0.10.0",
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.4",
-    "osrs-json-hiscores": "^2.1.0"
+    "osrs-json-hiscores": "^2.1.0",
+    "twilio": "^3.48.1"
   }
 }

@@ -1,4 +1,4 @@
-const allEmojis = [
+let allEmojis = [
   ":smile:",
   ":laughing:",
   ":blush:",
@@ -76,7 +76,6 @@ const allEmojis = [
   ":star2:",
   ":dizzy:",
   ":boom:",
-  ":collision:",
   ":anger:",
   ":exclamation:",
   ":question:",
@@ -100,7 +99,6 @@ const allEmojis = [
   ":fist:",
   ":v:",
   ":wave:",
-  ":hand:",
   ":raised_hand:",
   ":open_hands:",
   ":point_up:",
@@ -218,7 +216,6 @@ const allEmojis = [
   ":penguin:",
   ":turtle:",
   ":bug:",
-  ":honeybee:",
   ":ant:",
   ":beetle:",
   ":snail:",
@@ -291,7 +288,6 @@ const allEmojis = [
   ":volcano:",
   ":milky_way:",
   ":partly_sunny:",
-  ":octocat:",
   ":bamboo:",
   ":gift_heart:",
   ":dolls:",
@@ -465,7 +461,6 @@ const allEmojis = [
   ":trumpet:",
   ":saxophone:",
   ":guitar:",
-  ":shoe:",
   ":sandal:",
   ":high_heel:",
   ":lipstick:",
@@ -853,6 +848,61 @@ const allEmojis = [
   ":small_red_triangle:",
 ];
 
+let twitchEmotes = [
+  "<:4Head:771734681837633566>",
+  "<:5Head:771734681980239882>",
+  "<:Boolin:771734681892159518>",
+  "<:CapitalD:771734681577979917>",
+  "<:DColon:771734681506152459>",
+  "<:EZ:771734681900548156>",
+  "<:FeelsBadMan:771734681627394059>",
+  "<:FeelsDankMan:771734681925451796>",
+  "<:FeelsOkayMan:771734681896091678>",
+  "<:FeelsWeirdManW:771734681552158731>",
+  "<:forsenCD:771734681897009162>",
+  "<:gachiBass:771734681908412426>",
+  "<:gachiHYPER:771734681941966848>",
+  "<:HYPERBRUH:771734681972506624>",
+  "<:Kapp:771734681656754218>",
+  "<:KEKW:771734681933709312>",
+  "<:KKona:771734681921650688>",
+  "<:KKonaW:771734682127695892>",
+  "<:LULW:771734682274103326>",
+  "<:monkaEyes:771734681964118016>",
+  "<:monkaHmm:771734682345537546>",
+  "<:monkaT:771734681540493313>",
+  "<:monkaW:771734681736970303>",
+  "<:OMEGALUL:771734682353795092>",
+  "<:PainsChamp:771734681963986944>",
+  "<:PauseChamp:771734682064126003>",
+  "<:peepoBlanket:771734682085359676>",
+  "<:peepoPog:771734681729105921>",
+  "<:peepoSad:771734682445414440>",
+  "<:peepoSquad:771734681971458128>",
+  "<:peepoThink:771734682009862154>",
+  "<:pepega:771734681866469387>",
+  "<:pepeJam:771734682123108352>",
+  "<:pepeLaugh:771734682332823562>",
+  "<:Pog:771734681989283880>",
+  "<:PogU:771734682370310144>",
+  "<:ppL:771734681761742849>",
+  "<:Sadge:771734682274234419>",
+  "<:squadW:771734682390888498>",
+  "<:Thonk:771734682211057675>",
+  "<:WaitWhat:771734681724911637>",
+  "<:WeirdChamp:771734682345144320>",
+  "<:WideHard:771734681934233601>",
+  "<:WideHardo:771734681804603475>",
+  "<:widepeepoBlanket:771734682106200105>",
+  "<:widepeepoHappy:771734682068320266>",
+  "<:widepeepoHigh:771734682106069002>",
+  "<:WutFaceW:771734681808928810>",
+  "<:xqcDUD:771734682370441226>",
+  "<:xqcL:771734681946161153>",
+];
+
+twitchEmotes.forEach((emote) => allEmojis.push(emote));
+
 let guesses = {};
 let playing = false;
 
@@ -862,12 +912,6 @@ module.exports = {
   execute(message, args) {
     play(message, args);
   },
-};
-
-ensureCorrectUsage = (message, args) => {
-  if (args.length <= 0 || args.length > 2) return false;
-
-  if (args.length > 1 && isNaN(parseInt(args[1]))) return false;
 };
 
 play = (message, args) => {
@@ -886,7 +930,7 @@ play = (message, args) => {
 };
 
 generatePyramid = (message, args) => {
-  const length = 20;
+  const length = 15;
   let spaces = Math.floor(length / 2) * 6;
 
   let emojis = "";
@@ -904,18 +948,40 @@ generatePyramid = (message, args) => {
       emojis += "\n";
     }
   }
+
   message.channel.send(emojis);
 
   for (username in guesses) {
+    let emote = isTwitchEmote(guesses[username]);
     if (emojis.includes(guesses[username])) {
-      message.channel.send(`${username} Got it right! ${guesses[username]} is in the pyramid!`);
+      message.channel.send(
+        `${username} Got it right! ${emote.name} is in the pyramid!`
+      );
     } else {
       message.channel.send(".");
-      message.channel.send(`@${username} ${guesses[username]} isn't in the pyramid :frowning:`);
+      message.channel.send(
+        `@${username} ${emote.name} isn't in the pyramid :frowning:`
+      );
     }
   }
 };
 
 getRandomEmoji = () => {
   return allEmojis[Math.floor(Math.random() * allEmojis.length)];
+};
+
+isTwitchEmote = (guess) => {
+  let emote = {
+    isTwitchEmote: false,
+    name: guess,
+  };
+
+  for (let i = 0; i < twitchEmotes.length; i++) {
+    if (twitchEmotes[i].includes(guess)) {
+      emote.isTwitchEmote = true;
+      emote.name = twitchEmotes[i];
+    }
+  }
+
+  return emote;
 };
