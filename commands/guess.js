@@ -848,10 +848,9 @@ let allEmojis = [
   ":small_red_triangle:",
 ];
 
-let twitchEmotes = [
+let customEmotes = [
   "<:4Head:771734681837633566>",
   "<:5Head:771734681980239882>",
-  "<:Boolin:771734681892159518>",
   "<:CapitalD:771734681577979917>",
   "<:DColon:771734681506152459>",
   "<:EZ:771734681900548156>",
@@ -899,10 +898,10 @@ let twitchEmotes = [
   "<:jeff:772507296772128788>",
   "<:karl:772507296843956306>",
   "<:boto:772507296747094016>",
-  "<:jello:772507297015791646>"
+  "<:jello:772507297015791646>",
 ];
 
-twitchEmotes.forEach((emote) => allEmojis.push(emote));
+customEmotes.forEach((emote) => allEmojis.push(emote));
 
 let guesses = {};
 let playing = false;
@@ -919,9 +918,12 @@ play = (message, args) => {
   if (playing) {
     guesses[message.author.username] = `:${args[0]}:`;
   } else {
-    playing = true;
-    message.channel.send("Taking guesses for 5 seconds.");
     guesses = {};
+    guesses[message.author.username] = `:${args[0]}:`;
+    playing = true;
+    message.channel.send(
+      "New game started. Taking guesses for 5 more seconds."
+    );
 
     setTimeout(() => {
       generatePyramid(message, args);
@@ -953,8 +955,8 @@ generatePyramid = (message, args) => {
   message.channel.send(emojis);
 
   for (username in guesses) {
-    let emote = isTwitchEmote(guesses[username]);
-    if (emojis.includes(guesses[username])) {
+    let emote = isCustomEmote(guesses[username]);
+    if (emojis.toLowerCase().includes(guesses[username].toLowerCase())) {
       message.channel.send(
         `${username} Got it right! ${emote.name} is in the pyramid!`
       );
@@ -971,16 +973,18 @@ getRandomEmoji = () => {
   return allEmojis[Math.floor(Math.random() * allEmojis.length)];
 };
 
-isTwitchEmote = (guess) => {
+isCustomEmote = (guess) => {
   let emote = {
-    isTwitchEmote: false,
+    isCustomEmote: false,
     name: guess,
   };
 
-  for (let i = 0; i < twitchEmotes.length; i++) {
-    if (twitchEmotes[i].includes(guess)) {
-      emote.isTwitchEmote = true;
-      emote.name = twitchEmotes[i];
+  for (let i = 0; i < customEmotes.length; i++) {
+    let customEmote = customEmotes[i].toLowerCase();
+    if (customEmote.includes(guess.toLowerCase())) {
+      emote.isCustomEmote = true;
+      emote.name = customEmotes[i];
+      break;
     }
   }
 
