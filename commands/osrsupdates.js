@@ -4,17 +4,18 @@ const TWENTY_FOUR_HOURS = 86400000;
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, 'updates.txt');
-const updates = readFile();
+let updates = readFile();
+let called = false;
 
 module.exports = { 
     name:'osrsupdates', 
     description: 'OSRS Updates',
     execute(message, args){ 
-        getUpdates(message);
+        getUpdates(message, "user");
     }
 };
 
-async function getUpdates(message) {
+async function getUpdates(message, caller) {
     try {
         let newUpdates = "";
         const html = await axios.get("https://oldschool.runescape.com");
@@ -35,7 +36,7 @@ async function getUpdates(message) {
             message.channel.send(newUpdates);
             message.channel.send("---------------------------------------------------------------------------------------------------------------");
         }
-        else {
+        else if (caller === "user") {
             message.channel.send(`No osrs updates today <:Sadge:771734682274234419>`);
         }
     } 
@@ -43,9 +44,14 @@ async function getUpdates(message) {
         console.log(error);    
     }
 
-    setTimeout(() => {
-        getUpdates(message);
-    }, TWENTY_FOUR_HOURS);
+    if (!called){
+        called = true;
+
+        setTimeout(() => {
+            called = false;
+            getUpdates(message, "bot");
+        }, TWENTY_FOUR_HOURS);
+    }
 }
 
 function readFile(){
@@ -60,5 +66,6 @@ function readFile(){
 function overWriteFile(data){
     fs.writeFile(filePath, data, function (err) {
         if (err) return console.log(err);
+        updates = data;
     });
 }
