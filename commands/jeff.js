@@ -1,7 +1,7 @@
-module.exports = {
-    name:'jeff',
+module.exports = { 
+    name:'jeff', 
     description: 'Jeff facts',
-    execute(message, args){
+    execute(message, args){ 
         message.channel.send(getRandomJeff());
     }
 };
