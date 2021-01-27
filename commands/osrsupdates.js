@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
-const TWENTY_FOUR_HOURS = 86400000;
+const HOUR = 3600000;
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, 'updates.txt');
@@ -50,7 +50,7 @@ async function getUpdates(message, caller) {
         setTimeout(() => {
             called = false;
             getUpdates(message, "bot");
-        }, TWENTY_FOUR_HOURS);
+        }, HOUR);
     }
 }
 
