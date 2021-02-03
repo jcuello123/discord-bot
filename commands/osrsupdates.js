@@ -47,7 +47,7 @@ async function getUpdates(message, caller) {
     if (!called){
         called = true;
 
-        setTimeout(() => {
+        setInterval(() => {
             called = false;
             getUpdates(message, "bot");
         }, HOUR);
