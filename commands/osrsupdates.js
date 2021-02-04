@@ -14,10 +14,8 @@ module.exports = {
         getUpdates(message, "user");
 
         if (!called){
-            setInterval(() => {
-                called = true;
-                getUpdates(message, "bot");
-            }, HOUR);
+            called = true;
+            setInterval(getUpdates, HOUR);
         }
     }
 };
@@ -46,7 +44,6 @@ async function getUpdates(message, caller) {
         else if (caller === "user") {
             message.channel.send(`No osrs updates today <:Sadge:771734682274234419>`);
         }
-        else {console.log("BOT CALLED")}
     } 
     catch(error){
         console.log(error);    
