@@ -12,6 +12,13 @@ module.exports = {
     description: 'OSRS Updates',
     execute(message, args){ 
         getUpdates(message, "user");
+
+        if (!called){
+            setInterval(() => {
+                called = true;
+                getUpdates(message, "bot");
+            }, HOUR);
+        }
     }
 };
 
@@ -39,18 +46,10 @@ async function getUpdates(message, caller) {
         else if (caller === "user") {
             message.channel.send(`No osrs updates today <:Sadge:771734682274234419>`);
         }
+        else {console.log("BOT CALLED")}
     } 
     catch(error){
         console.log(error);    
-    }
-
-    if (!called){
-        called = true;
-
-        setInterval(() => {
-            called = false;
-            getUpdates(message, "bot");
-        }, HOUR);
     }
 }
 
