@@ -74,6 +74,8 @@ function overWriteFile(data, file){
         if (err){ 
             return console.log(err);
         }
-        updates = data;
+        if (file === 'updates.txt'){
+            updates = data;
+        }
     });
 }
