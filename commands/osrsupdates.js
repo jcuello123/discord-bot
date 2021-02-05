@@ -3,8 +3,7 @@ const axios = require("axios");
 const HOUR = 3600000;
 const fs = require("fs");
 const path = require("path");
-const filePath = path.join(__dirname, 'updates.txt');
-let updates = readFile();
+let updates = readFile('updates.txt');
 let called = false;
 
 module.exports = { 
@@ -35,7 +34,7 @@ async function getUpdates(message, caller) {
         newUpdates = newUpdates.trimEnd();
         
         if (newUpdates !== updates){
-            overWriteFile(newUpdates);
+            overWriteFile(newUpdates, 'updates.txt');
             message.channel.send("---------------------------------------------------------------------------------------------------------------");
             message.channel.send("NEW OSRS UPDATES:");
             message.channel.send(newUpdates);
@@ -44,14 +43,24 @@ async function getUpdates(message, caller) {
         else if (caller === "user") {
             message.channel.send(`No osrs updates today <:Sadge:771734682274234419>`);
         }
+
+        let currentDate = new Date();
+        let cDay = currentDate.getDate();
+        let cMonth = currentDate.getMonth() + 1;
+        let cYear = currentDate.getFullYear();
+        let date = `${cMonth}/${cDay}/${cYear}`;
+        let time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+        let dateAndTime = `Latest update: ${date} at ${time}`;
+        overWriteFile(dateAndTime, 'latest.txt');
     } 
     catch(error){
         console.log(error);    
     }
 }
 
-function readFile(){
+function readFile(file){
     try {
+        const filePath = path.join(__dirname, file);
         const data = fs.readFileSync(filePath, 'utf8')
         return data;
     } catch (err) {
@@ -59,9 +68,12 @@ function readFile(){
     }
 }
 
-function overWriteFile(data){
+function overWriteFile(data, file){
+    const filePath = path.join(__dirname, file);
     fs.writeFile(filePath, data, function (err) {
-        if (err) return console.log(err);
+        if (err){ 
+            return console.log(err);
+        }
         updates = data;
     });
 }
