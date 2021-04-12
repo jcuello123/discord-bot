@@ -34,7 +34,7 @@ async function getUpdates(message, caller) {
       let dateAndTime = `Latest bot call: ${date} at ${time}. (hours is +4 ahead of normal time)`;
       console.log(dateAndTime);
     }
-    let updates = readFile("updates.txt");
+    let updates = "";
     let newUpdates = "";
     const html = await axios.get("https://oldschool.runescape.com");
     const $ = await cheerio.load(html.data);
