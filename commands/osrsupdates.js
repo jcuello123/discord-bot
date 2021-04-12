@@ -19,11 +19,11 @@ module.exports = {
 };
 
 async function getUpdates(message, caller) {
-  console.log("UPDATES:", updates);
-  console.log("CALLED", caller);
   try {
     let updates = readFile("updates.txt");
     let newUpdates = "";
+    console.log("UPDATES:", updates);
+    console.log("CALLED", caller);
     const html = await axios.get("https://oldschool.runescape.com");
     const $ = await cheerio.load(html.data);
 
