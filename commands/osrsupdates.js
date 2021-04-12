@@ -13,7 +13,9 @@ module.exports = {
 
     if (!called) {
       called = true;
-      setInterval(getUpdates, HOUR);
+      setInterval(() => {
+        getUpdates(message, "BOT");
+      }, HOUR);
     }
   },
 };
