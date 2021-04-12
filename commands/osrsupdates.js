@@ -28,10 +28,10 @@ async function getUpdates(message, caller) {
       let cMonth = currentDate.getMonth() + 1;
       let cYear = currentDate.getFullYear();
       let date = `${cMonth}/${cDay}/${cYear}`;
-      let hours = currentDate.getHours() - 4;
+      let hours = currentDate.getHours();
       let mins = currentDate.getMinutes();
       let time = hours + ":" + mins + ":" + currentDate.getSeconds();
-      let dateAndTime = `Latest bot call: ${date} at ${time}`;
+      let dateAndTime = `Latest bot call: ${date} at ${time}. (hours is +4 ahead of normal time)`;
       console.log(dateAndTime);
     }
     let updates = readFile("updates.txt");
