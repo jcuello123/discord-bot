@@ -3,7 +3,6 @@ const axios = require("axios");
 const HOUR = 3600000;
 const fs = require("fs");
 const path = require("path");
-let updates = readFile("updates.txt");
 let called = false;
 
 module.exports = {
@@ -23,6 +22,7 @@ async function getUpdates(message, caller) {
   console.log("UPDATES:", updates);
   console.log("CALLED", caller);
   try {
+    let updates = readFile("updates.txt");
     let newUpdates = "";
     const html = await axios.get("https://oldschool.runescape.com");
     const $ = await cheerio.load(html.data);
@@ -78,13 +78,15 @@ function readFile(file) {
 }
 
 function overWriteFile(data, file) {
-  const filePath = path.join(__dirname, file);
-  fs.writeFile(filePath, data, function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    if (file === "updates.txt") {
-      updates = data;
-    }
-  });
+  try {
+    const filePath = path.join(__dirname, file);
+
+    fs.writeFile(filePath, data, function (err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
