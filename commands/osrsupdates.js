@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const HOUR = 3600000;
+const HOUR = 5 * 1000;
 const fs = require("fs");
 const path = require("path");
 let called = false;
