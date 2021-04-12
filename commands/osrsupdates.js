@@ -20,6 +20,7 @@ module.exports = {
 };
 
 async function getUpdates(message, caller) {
+  console.log("CALLED", caller);
   try {
     let newUpdates = "";
     const html = await axios.get("https://oldschool.runescape.com");
