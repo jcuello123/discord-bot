@@ -28,7 +28,9 @@ async function getUpdates(message, caller) {
       let cMonth = currentDate.getMonth() + 1;
       let cYear = currentDate.getFullYear();
       let date = `${cMonth}/${cDay}/${cYear}`;
-      let time = currentDate.getHours() +":" +currentDate.getMinutes() +":" +currentDate.getSeconds();
+      let hours = currentDate.getHours() - 4;
+      let mins = currentDate.getMinutes();
+      let time = hours + ":" + mins + ":" + currentDate.getSeconds();
       let dateAndTime = `Latest bot call: ${date} at ${time}`;
       console.log(dateAndTime);
     }
