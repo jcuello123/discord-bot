@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const HOUR = 5 * 1000;
+const HOUR = 1000 * 5;
 const fs = require("fs");
 const path = require("path");
 let called = false;
@@ -22,10 +22,18 @@ module.exports = {
 
 async function getUpdates(message, caller) {
   try {
+    if (caller === "BOT") {
+      let currentDate = new Date();
+      let cDay = currentDate.getDate();
+      let cMonth = currentDate.getMonth() + 1;
+      let cYear = currentDate.getFullYear();
+      let date = `${cMonth}/${cDay}/${cYear}`;
+      let time = currentDate.getHours() +":" +currentDate.getMinutes() +":" +currentDate.getSeconds();
+      let dateAndTime = `Latest bot call: ${date} at ${time}`;
+      console.log(dateAndTime);
+    }
     let updates = readFile("updates.txt");
     let newUpdates = "";
-    console.log("UPDATES:", updates);
-    console.log("CALLED", caller);
     const html = await axios.get("https://oldschool.runescape.com");
     const $ = await cheerio.load(html.data);
 
@@ -50,20 +58,6 @@ async function getUpdates(message, caller) {
     } else if (caller === "user") {
       message.channel.send(`No osrs updates today <:Sadge:771734682274234419>`);
     }
-
-    let currentDate = new Date();
-    let cDay = currentDate.getDate();
-    let cMonth = currentDate.getMonth() + 1;
-    let cYear = currentDate.getFullYear();
-    let date = `${cMonth}/${cDay}/${cYear}`;
-    let time =
-      currentDate.getHours() +
-      ":" +
-      currentDate.getMinutes() +
-      ":" +
-      currentDate.getSeconds();
-    let dateAndTime = `Latest update: ${date} at ${time}`;
-    overWriteFile(dateAndTime, "latest.txt");
   } catch (error) {
     console.log(error);
   }

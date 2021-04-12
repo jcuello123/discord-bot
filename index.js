@@ -7,6 +7,7 @@ const { prefix } = require("./config.json");
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
+//commands
 const commandFiles = fs
   .readdirSync("./commands")
   .filter((file) => file.endsWith(".js"));
