@@ -20,6 +20,7 @@ module.exports = {
 };
 
 async function getUpdates(message, caller) {
+  console.log("UPDATES:", updates);
   console.log("CALLED", caller);
   try {
     let newUpdates = "";
