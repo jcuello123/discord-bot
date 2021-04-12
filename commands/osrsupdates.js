@@ -3,7 +3,7 @@ const axios = require("axios");
 const HOUR = 3600000;
 const fs = require("fs");
 const path = require("path");
-let updates = readFile(__dirname + "/updates.txt");
+let updates = readFile("updates.txt");
 let called = false;
 
 module.exports = {
