@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const HOUR = 1000 * 5;
+const HOUR = 3600000;
 const fs = require("fs");
 const path = require("path");
 let called = false;
@@ -34,7 +34,7 @@ async function getUpdates(message, caller) {
       let dateAndTime = `Latest bot call: ${date} at ${time}. (hours is +4 ahead of normal time)`;
       console.log(dateAndTime);
     }
-    let updates = "";
+    let updates = readFile("updates.txt");
     let newUpdates = "";
     const html = await axios.get("https://oldschool.runescape.com");
     const $ = await cheerio.load(html.data);
